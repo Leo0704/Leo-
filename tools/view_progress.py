@@ -6,104 +6,51 @@
 查看项目的当前开发进度。
 """
 
-import argparse
 import json
+import sys
 from pathlib import Path
+
+# 添加父目录到路径
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from core.tasks import TaskManager
+from core.progress import ProgressTracker
 
 
 def view_progress(project_dir: Path):
     """显示项目进度"""
-    feature_file = project_dir / "feature_list.json"
-    progress_file = project_dir / "progress.json"
 
-    print(f"\n项目目录: {project_dir}")
-    print("=" * 50)
+    workflow_dir = project_dir / ".workflow"
 
-    # 检查 feature_list.json
-    if not feature_file.exists():
-        print("\n[!] feature_list.json 不存在")
-        print("    项目可能尚未初始化")
+    if not workflow_dir.exists():
+        print(f"\n[!] 工作流目录不存在: {workflow_dir}")
+        print("    请先初始化工作流")
         return
 
-    # 读取功能列表
-    with open(feature_file, "r", encoding="utf-8") as f:
-        features = json.load(f)
+    # 使用任务管理器
+    task_manager = TaskManager(workflow_dir)
+    task_manager.print_summary()
 
-    # 统计
-    total = len(features)
-    by_status = {}
-    by_category = {}
-
-    for feature in features:
-        status = feature.get("status", "pending")
-        category = feature.get("category", "unknown")
-
-        by_status[status] = by_status.get(status, 0) + 1
-        by_category[category] = by_category.get(category, 0) + 1
-
-    # 显示统计
-    print(f"\n功能统计:")
-    print(f"  总计: {total}")
-
-    if by_status:
-        print(f"\n  按状态:")
-        for status, count in sorted(by_status.items()):
-            percentage = (count / total * 100) if total > 0 else 0
-            bar = "█" * int(percentage / 5) + "░" * (20 - int(percentage / 5))
-            print(f"    {status:12} {count:4} ({percentage:5.1f}%) {bar}")
-
-    if by_category:
-        print(f"\n  按类别:")
-        for category, count in sorted(by_category.items(), key=lambda x: -x[1]):
-            print(f"    {category:12} {count:4}")
-
-    # 显示进度文件
-    if progress_file.exists():
-        with open(progress_file, "r", encoding="utf-8") as f:
-            progress = json.load(f)
-
-        print(f"\n进度信息:")
-        if progress.get("last_session"):
-            print(f"  最后会话: {progress['last_session']}")
-        if progress.get("in_progress"):
-            print(f"  进行中: {progress['in_progress']}")
-        if progress.get("next_actions"):
-            print(f"\n  下一步:")
-            for action in progress["next_actions"][:5]:
-                print(f"    - {action}")
-
-    # 显示待处理功能
-    pending = [f for f in features if f.get("status") == "pending"]
-    if pending:
-        pending_sorted = sorted(pending, key=lambda x: x.get("priority", 999))
-        print(f"\n待处理功能 (前 5 个):")
-        for feature in pending_sorted[:5]:
-            print(f"  [{feature.get('id', '?')}] {feature.get('description', 'N/A')}")
-
-    # 显示最近完成
-    completed = [f for f in features if f.get("status") == "completed"]
-    if completed:
-        print(f"\n已完成功能 (最近 5 个):")
-        # 注意：这里没有时间信息，只显示列表
-        for feature in completed[-5:]:
-            print(f"  [{feature.get('id', '?')}] {feature.get('description', 'N/A')}")
-
-    # 完成度
-    if total > 0:
-        completed_count = by_status.get("completed", 0)
-        percentage = completed_count / total * 100
-        print(f"\n完成度: {percentage:.1f}%")
-        print(f"{'█' * int(percentage / 2)}{'░' * (50 - int(percentage / 2))}")
+    # 显示状态文件内容
+    status_file = workflow_dir / "STATUS.md"
+    if status_file.exists():
+        print("\n" + "=" * 50)
+        print("  STATUS.md 内容")
+        print("=" * 50)
+        with open(status_file, "r", encoding="utf-8") as f:
+            print(f.read())
 
 
 def main():
-    parser = argparse.ArgumentParser(description="查看无限开发工作流项目进度")
+    import argparse
+
+    parser = argparse.ArgumentParser(description="查看无限开发工作流进度")
     parser.add_argument(
         "project_dir",
         type=Path,
         nargs="?",
-        default=Path("./generations/default_project"),
-        help="项目目录"
+        default=Path("."),
+        help="项目目录（默认: 当前目录）"
     )
 
     args = parser.parse_args()

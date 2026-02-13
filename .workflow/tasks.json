@@ -1,0 +1,78 @@
+{
+  "tasks": [
+    {
+      "id": "task-001",
+      "title": "创建项目基础结构",
+      "status": "completed",
+      "priority": 1,
+      "completed_at": "2024-02-14T00:30:00Z"
+    },
+    {
+      "id": "task-002",
+      "title": "实现核心配置模块",
+      "status": "completed",
+      "priority": 2,
+      "completed_at": "2024-02-14T00:45:00Z"
+    },
+    {
+      "id": "task-003",
+      "title": "创建提示模板",
+      "status": "completed",
+      "priority": 3,
+      "completed_at": "2024-02-14T01:00:00Z"
+    },
+    {
+      "id": "task-004",
+      "title": "优化工作流核心代码",
+      "status": "completed",
+      "priority": 4,
+      "description": "删除不必要的 SDK 依赖，简化为纯状态驱动模式，适配 Claude Code 直接使用",
+      "completed_at": "2024-02-14T01:45:00Z"
+    },
+    {
+      "id": "task-005",
+      "title": "添加使用示例",
+      "status": "in_progress",
+      "priority": 5,
+      "description": "创建具体的使用示例，展示如何在 Claude Code 中使用此工作流",
+      "steps": [
+        "创建示例项目模板",
+        "编写使用教程",
+        "添加常见场景示例"
+      ]
+    },
+    {
+      "id": "task-006",
+      "title": "完善文档",
+      "status": "pending",
+      "priority": 6,
+      "description": "完善 README 和其他文档",
+      "steps": [
+        "更新 README.md",
+        "添加 FAQ"
+      ]
+    },
+    {
+      "id": "task-007",
+      "title": "测试工作流",
+      "status": "pending",
+      "priority": 7,
+      "description": "测试整个工作流是否正常工作",
+      "steps": [
+        "手动测试各种场景",
+        "修复发现的问题"
+      ]
+    },
+    {
+      "id": "task-008",
+      "title": "推送到 GitHub",
+      "status": "pending",
+      "priority": 8,
+      "description": "将所有更新推送到 GitHub 仓库",
+      "steps": [
+        "提交所有更改",
+        "推送到远程仓库"
+      ]
+    }
+  ]
+}

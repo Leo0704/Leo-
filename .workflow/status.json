@@ -1,0 +1,23 @@
+{
+  "project_name": "无限开发工作流框架",
+  "created": "2024-02-14T00:00:00Z",
+  "last_update": "2024-02-14T01:30:00Z",
+  "stats": {
+    "total_tasks": 8,
+    "completed": 3,
+    "in_progress": 1,
+    "pending": 4
+  },
+  "current_task": {
+    "id": "task-004",
+    "title": "优化工作流核心代码",
+    "status": "in_progress"
+  },
+  "next_tasks": [
+    "task-005",
+    "task-006",
+    "task-007",
+    "task-008"
+  ],
+  "sessions_count": 1
+}
