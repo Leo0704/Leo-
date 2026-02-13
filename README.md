@@ -12,6 +12,16 @@
 状态文件 → Claude 读取 → Claude 工作 → Claude 更新状态 → 循环
 ```
 
+## 特性
+
+- **状态驱动** - 基于文件系统的状态持久化
+- **零 API 依赖** - 直接在 Claude Code 中使用
+- **自定义命令** - 支持 20+ Slash Commands
+- **Hooks 自动化** - 自动格式化、lint、通知
+- **MCP 集成** - 连接 GitHub、数据库等外部服务
+- **Skills** - 自定义 AI 子代理
+- **Plan Mode** - 复杂任务先规划再执行
+
 ## 快速开始
 
 ### 1. 初始化工作流
@@ -36,143 +46,74 @@ python tools/init_workflow.py ./my_project --name "我的项目" --tasks "任务
 继续开发
 ```
 
-或者：
+### 3. 使用自定义命令
 
 ```
-请阅读 .workflow/STATUS.md 并继续工作
+/workflow:status    # 查看进度
+/workflow:continue  # 继续工作
+/workflow:add-task  # 添加任务
+/git:commit        # 提交代码
+/test:run          # 运行测试
 ```
-
-### 3. Claude 会自动
-
-- 读取当前状态
-- 执行下一个任务
-- 更新进度文件
-- 提交代码
 
 ## 目录结构
 
 ```
 项目目录/
-├── .workflow/
-│   ├── STATUS.md          # 当前状态（人类可读）
-│   ├── status.json        # 当前状态（机器可读）
-│   ├── tasks.json         # 任务列表
-│   ├── decisions.md       # 技术决策记录
-│   └── sessions/          # 会话历史
-│       ├── session-001.md
-│       └── session-002.md
-├── src/                   # 你的源代码
-└── ...
+├── .workflow/           # 工作流状态
+│   ├── STATUS.md       # 人类可读状态
+│   ├── status.json     # 机器可读状态
+│   ├── tasks.json      # 任务列表
+│   └── sessions/       # 会话历史
+├── .claude/           # Claude Code 配置
+│   ├── commands/      # 自定义命令
+│   ├── skills/        # 自定义技能
+│   └── settings.json  # Hooks 配置
+├── core/              # 核心模块
+├── tools/             # 命令行工具
+├── docs/              # 文档
+└── templates/         # 项目模板
 ```
 
-## 状态文件说明
+## 高级功能
 
-### STATUS.md
+### 自定义命令
 
-人类可读的状态文件，每次会话结束时会更新：
-
-```markdown
-# 工作流状态
-
-## 项目信息
-- **项目名称**: 示例项目
-- **创建时间**: 2024-01-15
-
-## 当前进度
-- **总任务**: 10
-- **已完成**: 3
-- **进行中**: task-004
-
-## 当前任务
-- task-004: 实现登录功能
-
-## 下一步任务
-1. task-005: 添加表单验证
-2. task-006: 连接后端 API
+```bash
+/workflow:status      # 查看工作流状态
+/workflow:continue    # 继续下一个任务
+/workflow:add-task    # 添加新任务
+/git:commit          # 提交更改
+/git:pr              # 创建 PR
+/test:run            # 运行测试
 ```
 
-### tasks.json
+### Hooks 自动化
 
-任务列表：
+在 `.claude/settings.json` 中配置：
 
 ```json
 {
-  "tasks": [
-    {
-      "id": "task-001",
-      "title": "项目初始化",
-      "status": "completed",
-      "priority": 1
-    },
-    {
-      "id": "task-002",
-      "title": "实现登录功能",
-      "status": "in_progress",
-      "priority": 2,
-      "description": "实现用户登录，包括表单和API",
-      "steps": ["创建表单", "添加验证", "调用API"]
-    }
-  ]
+  "hooks": {
+    "SessionStart": [...],
+    "PostToolUse": [...]
+  }
 }
 ```
 
-## 使用示例
+### MCP 服务器
 
-### 场景 1: 开始新项目
-
-```
-用户: 我想创建一个博客系统，帮我初始化工作流
-
-Claude: 好的，我来创建工作流结构...
-
-[创建 .workflow/ 目录和状态文件]
-
-现在可以开始开发了。第一个任务是创建项目基础结构。
+```bash
+# 添加 MCP 服务器
+claude mcp add github --transport http https://api.github.com/mcp/
 ```
 
-### 场景 2: 继续开发
+### Skills
 
+```bash
+# 使用架构审查技能
+使用 architecture-review skill 分析项目
 ```
-用户: 继续开发
-
-Claude: 让我查看当前状态...
-
-[读取 .workflow/STATUS.md]
-
-当前进度: 3/10 任务完成
-下一个任务: task-004 实现登录功能
-
-开始实现...
-[编写代码...]
-[更新状态...]
-[提交代码...]
-
-任务完成！下一个任务是 task-005。
-```
-
-### 场景 3: 添加任务
-
-```
-用户: 添加一个新任务：实现搜索功能
-
-Claude: 好的，已添加 task-011: 实现搜索功能
-```
-
-## 核心原则
-
-1. **状态持久化** - 所有进度保存在文件中，不依赖记忆
-2. **上下文无关** - 每个会话独立，通过读取状态恢复
-3. **增量提交** - 完成一个任务就 commit
-4. **记录决策** - 重要决策写入 decisions.md
-
-## 与传统开发的区别
-
-| 传统开发 | 无限工作流 |
-|---------|----------|
-| 进度记在脑子里 | 进度保存在文件里 |
-| 会话结束可能忘记 | 状态持久化 |
-| 需要重新解释上下文 | 自动读取状态 |
-| 依赖开发者记忆 | 依赖文件系统 |
 
 ## 工具命令
 
@@ -185,6 +126,12 @@ python tools/view_progress.py ./项目目录
 
 # 创建新项目
 python tools/new_project.py 项目名
+
+# 自动修复
+python tools/auto_fix.py
+
+# 生成变更日志
+python tools/changelog.py
 ```
 
 ## 许可证

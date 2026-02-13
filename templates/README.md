@@ -1,74 +1,41 @@
-# 项目名称
+# 项目模板
 
-> 由无限开发工作流自动生成
+本目录包含可复用的项目模板。
 
-## 项目描述
+## 可用模板
 
-[项目描述将在此处添加]
+### 1. Python 项目模板
+- 位置: `python/`
+- 适用: Python 后端服务、CLI 工具
 
-## 技术栈
+### 2. Node.js 项目模板
+- 位置: `nodejs/`
+- 适用: Node.js 服务、API
 
-- **前端**: React + Vite + Tailwind CSS
-- **后端**: Node.js + Express
-- **数据库**: SQLite
+### 3. Next.js 项目模板: `nextjs
+- 位置/`
+- 适用: 全栈 Web 应用
 
-## 快速开始
+### 4. React 项目模板
+- 位置: `react/`
+- 适用: 前端应用
 
-### 安装依赖
-
-```bash
-./init.sh
-```
-
-或手动安装：
-
-```bash
-npm install
-```
-
-### 开发模式
+## 使用方式
 
 ```bash
-npm run dev
+# 使用 Python 模板
+python tools/new_project.py my-project --template python
+
+# 使用 Node.js 模板
+python tools/new_project.py my-project --template nodejs
+
+# 使用 Next.js 模板
+python tools/new_project.py my-project --template nextjs
 ```
 
-应用将在 http://localhost:3000 启动
+## 自定义模板
 
-### 构建
-
-```bash
-npm run build
-```
-
-## 项目结构
-
-```
-.
-├── frontend/          # 前端代码
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── utils/
-│   └── package.json
-├── backend/           # 后端代码
-│   ├── src/
-│   │   ├── routes/
-│   │   ├── models/
-│   │   └── utils/
-│   └── package.json
-├── feature_list.json  # 功能清单
-├── progress.json      # 进度追踪
-└── session_notes.md   # 会话笔记
-```
-
-## 开发进度
-
-查看 `progress.json` 了解当前开发进度。
-
-## API 文档
-
-[API 文档将在此处添加]
-
-## 许可证
-
-MIT
+1. 在 `templates/` 目录下创建新文件夹
+2. 添加项目文件
+3. 创建 `CLAUDE.md` 描述项目
+4. 在 `tools/new_project.py` 中添加模板选项
