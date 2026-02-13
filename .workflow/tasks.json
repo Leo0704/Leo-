@@ -32,47 +32,54 @@
     {
       "id": "task-005",
       "title": "添加使用示例",
-      "status": "in_progress",
+      "status": "completed",
       "priority": 5,
       "description": "创建具体的使用示例，展示如何在 Claude Code 中使用此工作流",
       "steps": [
         "创建示例项目模板",
         "编写使用教程",
         "添加常见场景示例"
-      ]
+      ],
+      "completed_at": "2024-02-14T02:00:00Z"
     },
     {
       "id": "task-006",
-      "title": "完善文档",
-      "status": "pending",
+      "title": "自我迭代：添加 CLAUDE.md",
+      "status": "completed",
       "priority": 6,
-      "description": "完善 README 和其他文档",
-      "steps": [
-        "更新 README.md",
-        "添加 FAQ"
-      ]
+      "description": "添加 Claude Code 项目描述文件",
+      "completed_at": "2024-02-14T02:10:00Z"
     },
     {
       "id": "task-007",
-      "title": "测试工作流",
-      "status": "pending",
+      "title": "自我迭代：添加 MCP 配置",
+      "status": "completed",
       "priority": 7,
-      "description": "测试整个工作流是否正常工作",
-      "steps": [
-        "手动测试各种场景",
-        "修复发现的问题"
-      ]
+      "description": "添加 MCP 服务器配置示例",
+      "completed_at": "2024-02-14T02:15:00Z"
     },
     {
       "id": "task-008",
-      "title": "推送到 GitHub",
-      "status": "pending",
+      "title": "自我迭代：添加 AGENTS.md 子代理定义",
+      "status": "completed",
       "priority": 8,
-      "description": "将所有更新推送到 GitHub 仓库",
-      "steps": [
-        "提交所有更改",
-        "推送到远程仓库"
-      ]
+      "description": "创建自定义子代理定义文件",
+      "completed_at": "2024-02-14T02:20:00Z"
+    },
+    {
+      "id": "task-009",
+      "title": "自我迭代：添加 Plan Mode 支持",
+      "status": "completed",
+      "priority": 9,
+      "description": "添加 Plan Mode 使用指南",
+      "completed_at": "2024-02-14T02:25:00Z"
+    },
+    {
+      "id": "task-010",
+      "title": "提交所有更改",
+      "status": "in_progress",
+      "priority": 10,
+      "description": "提交所有自我迭代的更改"
     }
   ]
 }
