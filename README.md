@@ -66,6 +66,7 @@ cp -r templates/quickstart/.workflow ./你的项目/
 |------|------|------|------|
 | [examples/todo-app](examples/todo-app/) | Web | 浏览器待办应用 | ✅ 95% |
 | [examples/cli-tool](examples/cli-tool/) | CLI | 命令行待办工具 | ✅ 100% |
+| [examples/enhanced-workflow](examples/enhanced-workflow/) | 增强工作流 | Skills + 多角色 + 验收标准 | ✅ 新增 |
 
 ---
 
@@ -101,6 +102,72 @@ cp -r templates/quickstart/.workflow ./你的项目/
 │   └── hooks.py      # 自动触发脚本
 └── [你的代码]/
 ```
+
+---
+
+## 增强特性
+
+### 🎯 Skills 集成
+
+利用 Claude Code 的专业能力扩展：
+
+```python
+manager.add_task(
+    title="编写产品需求文档",
+    skill="product-manager-toolkit",  # 自动调用 PM 工具
+    acceptance_criteria=["PRD 包含用户故事", "完成 RICE 评分"]
+)
+```
+
+可用 Skills：
+- `product-manager-toolkit` - 产品管理（RICE、PRD）
+- `architecture-review` - 架构审查
+- `test:run` - 自动化测试
+- `git:commit` / `git:pr` - Git 工作流
+
+### 👥 多角色协作
+
+支持团队分工和协作：
+
+```python
+# PM 任务
+manager.add_task(
+    title="需求分析",
+    role="PM",
+    assignee="Alice"
+)
+
+# 开发任务（依赖 PM）
+manager.add_task(
+    title="实现功能",
+    role="Developer",
+    assignee="Bob",
+    dependencies=["task-001"],
+    reviewers=["Charlie"]  # 代码审查
+)
+```
+
+支持角色：PM、Developer、Tester、Designer、Reviewer
+
+### ✅ 验收标准
+
+明确的任务完成标准：
+
+```python
+manager.add_task(
+    title="实现登录功能",
+    acceptance_criteria=[
+        "用户可以使用邮箱登录",
+        "登录失败显示错误",
+        "单元测试通过",
+        "代码审查通过"
+    ]
+)
+```
+
+Claude 会自动检查验收标准并更新进度。
+
+详见：[增强工作流文档](docs/ENHANCED_WORKFLOW.md)
 
 ---
 

@@ -49,16 +49,29 @@ class Task:
     steps: List[str] = field(default_factory=list)
     completed_at: Optional[str] = None
 
-    # 新增：依赖关系
+    # 依赖关系
     dependencies: List[str] = field(default_factory=list)  # 依赖的任务 ID
     blocked_by: List[str] = field(default_factory=list)    # 被哪些任务阻塞
     blocks: List[str] = field(default_factory=list)        # 阻塞哪些任务
 
-    # 新增：重试机制
+    # 重试机制
     retry_count: int = 0
     max_retries: int = 3
     last_error: Optional[str] = None
     error_strategy: str = "retry"
+
+    # 新增：Skills 集成
+    skill: Optional[str] = None  # 使用的 skill 名称（如 "product-manager-toolkit"）
+    agent: Optional[str] = None  # 使用的自定义 agent 名称
+
+    # 新增：多角色协作
+    role: Optional[str] = None  # 任务角色：PM, Developer, Tester, Designer, Reviewer
+    assignee: Optional[str] = None  # 负责人
+    reviewers: List[str] = field(default_factory=list)  # 审核人员列表
+
+    # 新增：验收标准
+    acceptance_criteria: List[str] = field(default_factory=list)  # 验收标准列表
+    criteria_status: dict = field(default_factory=dict)  # 每个标准的完成状态
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -70,7 +83,8 @@ class Task:
             'id', 'title', 'status', 'priority', 'description',
             'steps', 'completed_at', 'dependencies', 'blocked_by',
             'blocks', 'retry_count', 'max_retries', 'last_error',
-            'error_strategy'
+            'error_strategy', 'skill', 'agent', 'role', 'assignee',
+            'reviewers', 'acceptance_criteria', 'criteria_status'
         }
         filtered = {k: v for k, v in data.items() if k in known_fields}
         return cls(**filtered)
@@ -86,6 +100,20 @@ class Task:
             self.retry_count < self.max_retries and
             self.error_strategy == "retry"
         )
+
+    def check_acceptance_criteria(self) -> bool:
+        """检查所有验收标准是否满足"""
+        if not self.acceptance_criteria:
+            return True  # 没有验收标准则默认通过
+        return all(
+            self.criteria_status.get(criterion, False)
+            for criterion in self.acceptance_criteria
+        )
+
+    def update_criterion_status(self, criterion: str, completed: bool) -> None:
+        """更新单个验收标准的状态"""
+        if criterion in self.acceptance_criteria:
+            self.criteria_status[criterion] = completed
 
 
 class FileLock:
@@ -313,7 +341,13 @@ class TaskManager:
         priority: int = 999,
         steps: List[str] = None,
         dependencies: List[str] = None,
-        max_retries: int = 3
+        max_retries: int = 3,
+        skill: str = None,
+        agent: str = None,
+        role: str = None,
+        assignee: str = None,
+        reviewers: List[str] = None,
+        acceptance_criteria: List[str] = None
     ) -> Optional[Task]:
         """添加新任务"""
         tasks = self.load_tasks()
@@ -331,7 +365,14 @@ class TaskManager:
             priority=priority,
             steps=steps or [],
             dependencies=dependencies or [],
-            max_retries=max_retries
+            max_retries=max_retries,
+            skill=skill,
+            agent=agent,
+            role=role,
+            assignee=assignee,
+            reviewers=reviewers or [],
+            acceptance_criteria=acceptance_criteria or [],
+            criteria_status={criterion: False for criterion in (acceptance_criteria or [])}
         )
 
         tasks.append(task)

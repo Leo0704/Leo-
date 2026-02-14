@@ -76,10 +76,31 @@
     },
     {
       "id": "task-010",
-      "title": "提交所有更改",
-      "status": "in_progress",
+      "title": "增强工作流特性：Skills + 多角色 + 验收标准",
+      "status": "completed",
       "priority": 10,
-      "description": "提交所有自我迭代的更改"
+      "description": "添加 Skills 集成、多角色协作和验收标准支持",
+      "steps": [
+        "更新 Task 类添加新字段",
+        "创建增强工作流文档",
+        "创建示例项目",
+        "更新 README 和 CLAUDE.md"
+      ],
+      "acceptance_criteria": [
+        "Task 类支持 skill、agent、role、assignee、reviewers 字段",
+        "Task 类支持 acceptance_criteria 和 criteria_status 字段",
+        "创建完整的文档说明",
+        "创建可运行的示例项目",
+        "更新主文档"
+      ],
+      "completed_at": "2024-02-14T03:00:00Z"
+    },
+    {
+      "id": "task-011",
+      "title": "提交所有更改",
+      "status": "pending",
+      "priority": 11,
+      "description": "提交增强工作流的所有更改"
     }
   ]
 }
