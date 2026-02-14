@@ -1,56 +1,20 @@
 {
   "tasks": [
     {
-      "id": "task-001",
-      "title": "创建项目基础结构",
-      "status": "completed",
+      "id": "task-009",
+      "title": "基于调研结果设计改进路线图",
+      "status": "in_progress",
       "priority": 1,
-      "completed_at": "2024-02-14T00:30:00Z"
-    },
-    {
-      "id": "task-002",
-      "title": "实现核心配置模块",
-      "status": "completed",
-      "priority": 2,
-      "completed_at": "2024-02-14T00:45:00Z"
-    },
-    {
-      "id": "task-003",
-      "title": "创建提示模板",
-      "status": "completed",
-      "priority": 3,
-      "completed_at": "2024-02-14T01:00:00Z"
-    },
-    {
-      "id": "task-004",
-      "title": "优化工作流核心代码",
-      "status": "completed",
-      "priority": 4,
-      "description": "删除不必要的 SDK 依赖，简化为纯状态驱动模式",
-      "completed_at": "2024-02-14T01:45:00Z"
-    },
-    {
-      "id": "task-005",
-      "title": "添加使用示例",
-      "status": "completed",
-      "priority": 5,
-      "description": "创建 todo-app 和 cli-tool 示例项目",
-      "completed_at": "2024-02-14T02:00:00Z"
-    },
-    {
-      "id": "task-006",
-      "title": "添加 CLAUDE.md 和 Hooks",
-      "status": "completed",
-      "priority": 6,
-      "completed_at": "2024-02-14T02:10:00Z"
-    },
-    {
-      "id": "task-007",
-      "title": "重构：去除过度设计",
-      "status": "completed",
-      "priority": 7,
-      "description": "删除 FileLock、CheckpointManager、ProgressTracker、虚假多角色系统。简化 Task 结构，添加可执行的验收标准。",
-      "completed_at": "2026-02-14T09:30:00Z"
+      "description": "根据 docs/RESEARCH-REPORT.md 中的 5 个优先级改进建议，设计具体的实施计划。包括：角色分工机制、依赖可视化、增强 Commit Messages、渐进式任务结构、GitHub Agentic Workflows 集成",
+      "steps": [
+        "分析当前工作流架构和调研报告",
+        "设计角色枚举和 AgentConfig 类",
+        "实现 TaskDispatcher（任务分发器）",
+        "实现 ResultAggregator（结果整合器）",
+        "更新 workflow:continue.md 使用新架构",
+        "编写测试验证新架构"
+      ],
+      "context": "重点关注：Anthropic Multi-Agent 论文的角色分工理念，以及如何将单个 Claude 模型改造为协作的多 Agent 系统"
     }
   ]
 }
