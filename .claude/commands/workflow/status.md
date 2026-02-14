@@ -6,24 +6,25 @@ description: 查看当前工作流进度状态
 
 ## 执行
 
-1. 读取 `.workflow/status.json`
-2. 读取 `.workflow/tasks.json`
-3. 计算进度百分比
+1. 读取 `.workflow/tasks.json`
+2. 计算进度
 
 ## 输出格式
 
 ```
-# 工作流进度
+进度: X/Y (Z%)
 
-- 总任务: X
-- 已完成: X (X%)
-- 进行中: X
-- 待处理: X
+当前任务: [task-ID] 标题
+  描述: ...
+  验收标准:
+    [x] [auto] 测试通过
+    [ ] [manual] 代码审查通过
+    进度: 1/2
 
-## 当前任务
-- [任务ID] 任务标题
-
-## 下一步
-1. [任务ID] 任务标题
-2. [任务ID] 任务标题
+待处理:
+  1. [task-ID] 标题 (依赖: task-XXX)
+  2. [task-ID] 标题
 ```
+
+如果任务有 `context` 字段，也一并显示。
+如果有 `acceptance_criteria`，逐项列出通过状态。

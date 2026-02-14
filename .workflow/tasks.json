@@ -26,7 +26,7 @@
       "title": "优化工作流核心代码",
       "status": "completed",
       "priority": 4,
-      "description": "删除不必要的 SDK 依赖，简化为纯状态驱动模式，适配 Claude Code 直接使用",
+      "description": "删除不必要的 SDK 依赖，简化为纯状态驱动模式",
       "completed_at": "2024-02-14T01:45:00Z"
     },
     {
@@ -34,73 +34,23 @@
       "title": "添加使用示例",
       "status": "completed",
       "priority": 5,
-      "description": "创建具体的使用示例，展示如何在 Claude Code 中使用此工作流",
-      "steps": [
-        "创建示例项目模板",
-        "编写使用教程",
-        "添加常见场景示例"
-      ],
+      "description": "创建 todo-app 和 cli-tool 示例项目",
       "completed_at": "2024-02-14T02:00:00Z"
     },
     {
       "id": "task-006",
-      "title": "自我迭代：添加 CLAUDE.md",
+      "title": "添加 CLAUDE.md 和 Hooks",
       "status": "completed",
       "priority": 6,
-      "description": "添加 Claude Code 项目描述文件",
       "completed_at": "2024-02-14T02:10:00Z"
     },
     {
       "id": "task-007",
-      "title": "自我迭代：添加 MCP 配置",
+      "title": "重构：去除过度设计",
       "status": "completed",
       "priority": 7,
-      "description": "添加 MCP 服务器配置示例",
-      "completed_at": "2024-02-14T02:15:00Z"
-    },
-    {
-      "id": "task-008",
-      "title": "自我迭代：添加 AGENTS.md 子代理定义",
-      "status": "completed",
-      "priority": 8,
-      "description": "创建自定义子代理定义文件",
-      "completed_at": "2024-02-14T02:20:00Z"
-    },
-    {
-      "id": "task-009",
-      "title": "自我迭代：添加 Plan Mode 支持",
-      "status": "completed",
-      "priority": 9,
-      "description": "添加 Plan Mode 使用指南",
-      "completed_at": "2024-02-14T02:25:00Z"
-    },
-    {
-      "id": "task-010",
-      "title": "增强工作流特性：Skills + 多角色 + 验收标准",
-      "status": "completed",
-      "priority": 10,
-      "description": "添加 Skills 集成、多角色协作和验收标准支持",
-      "steps": [
-        "更新 Task 类添加新字段",
-        "创建增强工作流文档",
-        "创建示例项目",
-        "更新 README 和 CLAUDE.md"
-      ],
-      "acceptance_criteria": [
-        "Task 类支持 skill、agent、role、assignee、reviewers 字段",
-        "Task 类支持 acceptance_criteria 和 criteria_status 字段",
-        "创建完整的文档说明",
-        "创建可运行的示例项目",
-        "更新主文档"
-      ],
-      "completed_at": "2024-02-14T03:00:00Z"
-    },
-    {
-      "id": "task-011",
-      "title": "提交所有更改",
-      "status": "pending",
-      "priority": 11,
-      "description": "提交增强工作流的所有更改"
+      "description": "删除 FileLock、CheckpointManager、ProgressTracker、虚假多角色系统。简化 Task 结构，添加可执行的验收标准。",
+      "completed_at": "2026-02-14T09:30:00Z"
     }
   ]
 }
