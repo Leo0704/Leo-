@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '=== 工作流状态 ===' && cat .workflow/status.json 2>/dev/null | python3 -c \"import json,sys; d=json.load(sys.stdin); print(f\\\"进度: {d.get('stats',{}).get('completed',0)}/{d.get('stats',{}).get('total_tasks',0)} \\\"); print(f\\\"当前: {d.get('current_task',{}).get('title','无')}\\\")\" 2>/dev/null || echo '未找到工作流'"
+            "command": "python3 .claude/hooks.py"
           }
         ]
       }
