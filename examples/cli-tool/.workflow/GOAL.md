@@ -1,22 +1,26 @@
-# 项目理想状态
+# 项目目标
 
-## 产品愿景
-一个简单的命令行待办工具，让用户在终端管理任务。
+## 完成功能
+- [x] 基础 CLI 命令实现
+- [x] 命令行参数解析
+- [x] 数据持久化
 
-## 成功标准
-- [ ] 用户可以添加任务
-- [ ] 用户可以列出任务
-- [ ] 用户可以完成/删除任务
-- [ ] 数据持久化到文件
-- [ ] 帮助命令清晰
+## 技术栈
+- 语言: Python 3
+- 存储: JSON 文件
+- 架构: 单文件脚本
 
-## 质量标准
-- 单文件实现
-- 纯 Python，无依赖
-- 代码 < 100 行
+## 使用方式
+```bash
+# 添加任务
+python todo.py add "学习使用 Claude Code 工作流"
 
-## 验收条件
-当我在终端使用时：
-1. `python todo.py add "任务"` 添加成功
-2. `python todo.py list` 显示所有任务
-3. `python todo.py done 1` 完成任务
+# 列出任务
+python todo.py list
+
+# 完成任务
+python todo.py done 1
+
+# 删除任务
+python todo.py delete 1
+```

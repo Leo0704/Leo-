@@ -1,22 +1,4 @@
 {
-  "tasks": [
-    {
-      "id": "1",
-      "subject": "测试原生 Task 集成",
-      "description": "创建一个测试任务，验证新的工作流集成方案是否正常工作",
-      "status": "pending",
-      "active_form": "测试原生 Task 集成中",
-      "owner": "",
-      "blocks": [],
-      "blocked_by": [],
-      "acceptance_criteria": [
-        {
-          "criterion": "修复漏洞",
-          "type": "manual",
-          "passed": false
-        }
-      ]
-    }
-  ],
-  "last_sync": "2026-02-14T13:41:57.884367"
+  "tasks": [],
+  "last_sync": "2026-02-14T14:06:47.452400"
 }

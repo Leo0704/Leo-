@@ -102,26 +102,72 @@ def sync_tasks() -> None:
 
     逻辑：
     1. 读取原生 Task（当前状态）
-    2. 读取验收标准（criteria.json）
-    3. 合并保存到 state.json
+    2. 读取现有 state.json（获取历史记录）
+    3. 读取验收标准（criteria.json）
+    4. 合并保存到 state.json（包含历史记录）
     """
+    # 导入历史记录功能
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "workflow_utils",
+        Path(__file__).parent / "workflow_utils.py"
+    )
+    workflow_utils = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(workflow_utils)
+
     native_tasks = get_current_session_tasks()
     criteria = load_criteria()
+    old_state = load_state()
+
+    # 构建旧任务的映射 {task_id: task_data}
+    old_tasks_map = {t["id"]: t for t in old_state.get("tasks", [])}
 
     # 构建合并后的状态
     state_tasks = []
     for task_id, task_data in native_tasks.items():
-        # 原生任务数据
-        state_task = {
-            "id": task_id,
-            "subject": task_data.get("subject", ""),
-            "description": task_data.get("description", ""),
-            "status": task_data.get("status", "pending"),
-            "active_form": task_data.get("activeForm", ""),
-            "owner": task_data.get("owner", ""),
-            "blocks": task_data.get("blocks", []),
-            "blocked_by": task_data.get("blockedBy", []),
-        }
+        current_status = task_data.get("status", "pending")
+
+        # 检查是否是新任务或状态发生变化
+        if task_id in old_tasks_map:
+            old_task = old_tasks_map[task_id]
+            old_status = old_task.get("status")
+
+            # 状态未变化，保留旧的历史记录
+            if old_status == current_status:
+                state_task = old_task
+            else:
+                # 状态发生变化，添加历史记录
+                note = f"状态从 {old_status} 变更为 {current_status}"
+                state_task = workflow_utils.add_history_entry(
+                    old_task.copy(),
+                    current_status,
+                    note
+                )
+        else:
+            # 新任务，添加创建历史
+            state_task = {
+                "id": task_id,
+                "subject": task_data.get("subject", ""),
+                "description": task_data.get("description", ""),
+                "status": current_status,
+                "active_form": task_data.get("activeForm", ""),
+                "owner": task_data.get("owner", ""),
+                "blocks": task_data.get("blocks", []),
+                "blocked_by": task_data.get("blockedBy", []),
+                "history": [{
+                    "status": current_status,
+                    "timestamp": datetime.now().isoformat(),
+                    "note": "任务创建"
+                }]
+            }
+
+        # 更新基本信息（确保最新）
+        state_task["subject"] = task_data.get("subject", state_task.get("subject", ""))
+        state_task["description"] = task_data.get("description", state_task.get("description", ""))
+        state_task["active_form"] = task_data.get("activeForm", state_task.get("active_form", ""))
+        state_task["owner"] = task_data.get("owner", state_task.get("owner", ""))
+        state_task["blocks"] = task_data.get("blocks", state_task.get("blocks", []))
+        state_task["blocked_by"] = task_data.get("blockedBy", state_task.get("blocked_by", []))
 
         # 添加验收标准
         if task_id in criteria:

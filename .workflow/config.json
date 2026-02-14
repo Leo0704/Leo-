@@ -4,6 +4,8 @@
   "auto_sync_tasks": true,
   "show_on_session_start": true,
   "persist_location": ".workflow/state.json",
+  "max_parallel_tasks": 3,
+  "enable_task_history": true,
   "verify_commands": {
     "test": {
       "command": "/test:run",

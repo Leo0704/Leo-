@@ -1,22 +1,31 @@
-# 当前状态
+# 当前实现状态
 
-## 已实现
-- ✅ add 命令 - 添加任务
-- ✅ list 命令 - 列出任务
-- ✅ done 命令 - 完成任务
-- ✅ delete 命令 - 删除任务
-- ✅ 数据持久化 (~/.todo_cli.json)
-- ✅ 帮助信息
-- ✅ 单文件实现
-- ✅ 纯 Python，无依赖
-- ✅ 代码 80 行
+## 已完成功能
+- ✅ 单文件 Python 脚本
+- ✅ JSON 文件存储
+- ✅ 基础 CRUD 操作
 
-## 待改进
-- 可选：添加编辑功能
-- 可选：添加优先级
+## 技术实现
+- 文件: `examples/cli-tool/todo.py`
+- 数据: `~/.todo_cli.json`
+- 代码量: 约 50 行
 
-## 距离理想状态
-100% - 超出预期
+## 待迁移到新工作流
+- [ ] 使用 .workflow/ 目录结构
+- [ ] 使用原生 Task 系统
+- [ ] 使用 /workflow:task 命令
+- [ ] 使用验收标准系统
 
-## 最后更新
-2024-02-14
+## 当前使用方式
+```bash
+python todo.py add "任务内容"
+python todo.py list
+python todo.py done 1
+```
+
+## 新工作流使用方式（目标）
+```bash
+/workflow:task 任务内容
+/workflow:status
+/workflow:verify
+```

@@ -54,6 +54,10 @@ description: 查看当前工作流进度状态（集成原生 Task）
 3. **依赖关系**：
    - 如果有 blocked_by，显示"等待: XXX"
    - 如果有 blocks，显示"阻塞: XXX"
+4. **任务历史**（如果启用）：
+   - 从 `.workflow/config.json` 读取 `enable_task_history`
+   - 如果为 true，显示任务的状态变更历史
+   - 格式：时间戳 - 状态 - 说明
 
 ---
 
