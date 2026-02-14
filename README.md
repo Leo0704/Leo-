@@ -62,9 +62,10 @@ cp -r templates/quickstart/.workflow ./你的项目/
 
 ## 示例项目
 
-| 项目 | 描述 | 状态 |
-|------|------|------|
-| [examples/todo-app](examples/todo-app/) | 待办事项应用 | ✅ 95% |
+| 项目 | 类型 | 描述 | 状态 |
+|------|------|------|------|
+| [examples/todo-app](examples/todo-app/) | Web | 浏览器待办应用 | ✅ 95% |
+| [examples/cli-tool](examples/cli-tool/) | CLI | 命令行待办工具 | ✅ 100% |
 
 ---
 
