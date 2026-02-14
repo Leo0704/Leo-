@@ -1,44 +1,18 @@
-# 无限开发工作流 (Infinite Workflow)
+# 目标驱动工作流
 
-> 让 Claude Code 跨会话持续开发的状态驱动框架
+> 一套文件约定 + Claude Code 命令，让 Claude 跨会话持续开发
 
-## 项目目标
+## 这是什么
 
-创建一个**零 API Key 依赖**的工作流系统，让 Claude Code 可以通过状态文件持久化实现跨会话持续开发。
+一组约定：用 `.workflow/` 目录下的三个文件（GOAL.md、REALITY.md、tasks.json）记录项目状态，配合 Claude Code 的自定义命令实现跨会话持续开发。
 
-## 设计原则
-
-1. **状态驱动** - 所有进度保存在 `.workflow/` 目录
-2. **上下文无关** - 每个会话通过读取状态恢复上下文
-3. **增量提交** - 每个任务完成后立即提交
-4. **验收标准** - 每个任务有明确的完成条件，区分自动验证和手动确认
+不是框架，不是 SDK，不需要安装任何东西。
 
 ## 事实来源
 
-项目有且只有两层状态：
-
-- `GOAL.md` + `REALITY.md` — 高层目标和当前现实的差距
-- `tasks.json` — 具体任务列表、验收标准、依赖关系
-
-## 目录结构
-
-```
-项目目录/
-├── .workflow/           # 工作流状态（事实来源）
-│   ├── GOAL.md         # 理想状态
-│   ├── REALITY.md      # 当前状态
-│   └── tasks.json      # 任务列表和验收标准
-├── .claude/            # Claude Code 配置
-│   ├── commands/       # 自定义命令
-│   ├── skills/         # 自定义技能
-│   ├── hooks.py        # SessionStart 自动触发
-│   └── settings.json   # Hooks 配置
-├── core/               # Python 可选工具
-│   └── tasks.py        # 任务管理（可选，Claude 可直接编辑 JSON）
-├── tools/              # 命令行工具（可选）
-├── templates/          # 项目模板
-└── examples/           # 示例项目
-```
+- `.workflow/GOAL.md` — 理想状态
+- `.workflow/REALITY.md` — 当前状态
+- `.workflow/tasks.json` — 任务列表和验收标准
 
 ## tasks.json 格式
 
@@ -53,60 +27,36 @@
       "description": "描述",
       "steps": ["步骤1", "步骤2"],
       "dependencies": ["task-000"],
-      "context": "执行此任务时的视角和关注点",
+      "context": "处理此任务时应关注什么",
       "acceptance_criteria": [
-        {
-          "criterion": "测试通过",
-          "type": "auto",
-          "verify": "pytest tests/ -q",
-          "passed": false
-        },
-        {
-          "criterion": "代码审查通过",
-          "type": "manual",
-          "passed": false
-        }
+        {"criterion": "测试通过", "type": "auto", "verify": "pytest tests/ -q", "passed": false},
+        {"criterion": "代码审查通过", "type": "manual", "passed": false}
       ]
     }
   ]
 }
 ```
 
-### 验收标准类型
+验收标准：`auto` 绑定 shell 命令自动验证，`manual` 需用户确认。
 
-- `auto` — 可通过运行 `verify` 命令自动验证（exit code 0 = 通过）
-- `manual` — 需要用户手动确认
+## 命令
 
-### context 字段
-
-替代虚假的"角色分配"。不是假装有多个人在协作，而是诚实地告诉 Claude 处理此任务时应关注什么：
-
-```json
-"context": "以安全工程师的视角审查，关注 OWASP Top 10"
-"context": "关注用户体验，确保交互流畅"
-"context": "关注性能，API 响应时间 < 200ms"
 ```
-
-## 使用方法
-
-### 自定义命令
-```
-/workflow:status      # 查看进度和验收标准
 /workflow:continue   # 继续任务（含验收检查）
-/workflow:add-task   # 添加任务（含验收标准）
-/git:commit         # 提交代码
-/test:run           # 运行测试
+/workflow:status     # 查看进度
+/workflow:add-task   # 添加任务
+/git:commit          # 提交代码
+/test:run            # 运行测试
 ```
 
-### 快速开始
-```bash
-cp -r templates/quickstart/.workflow ./my_project/
-# 编辑 GOAL.md，然后在 Claude Code 中说"继续开发"
+## 目录结构
+
 ```
-
-## 注意事项
-
-- 不需要任何 API Key，直接在 Claude Code 中使用
-- Python 工具是可选的，Claude 可以直接读写 JSON 文件
-- 始终先读取当前状态再开始工作
-- 使用 conventional commits 格式提交
+.workflow/              # 状态（事实来源）
+.claude/commands/       # 自定义命令
+.claude/hooks.py        # 会话启动时自动显示进度
+core/tasks.py           # Python 工具（可选）
+tools/                  # CLI 工具（可选）
+templates/quickstart/   # 快速开始模板
+examples/               # 示例项目
+```
