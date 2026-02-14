@@ -1,0 +1,11 @@
+{
+  "1": {
+    "acceptance_criteria": [
+      {
+        "criterion": "修复漏洞",
+        "type": "manual",
+        "passed": false
+      }
+    ]
+  }
+}

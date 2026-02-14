@@ -1,0 +1,60 @@
+{
+  "$schema": "./config.schema.json",
+  "auto_verify_on_complete": true,
+  "auto_sync_tasks": true,
+  "show_on_session_start": true,
+  "persist_location": ".workflow/state.json",
+  "verify_commands": {
+    "test": {
+      "command": "/test:run",
+      "description": "运行测试套件"
+    },
+    "pytest": {
+      "command": "pytest {args}",
+      "description": "运行 pytest 测试"
+    },
+    "npm_test": {
+      "command": "npm test",
+      "description": "运行 npm 测试"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "description": "运行代码检查"
+    },
+    "build": {
+      "command": "npm run build",
+      "description": "构建项目"
+    },
+    "typecheck": {
+      "command": "npm run typecheck || tsc --noEmit",
+      "description": "TypeScript 类型检查"
+    }
+  },
+  "smart_suggestions": {
+    "keywords": {
+      "测试|test": {
+        "criterion": "测试通过",
+        "type": "auto",
+        "verify": "pytest tests/ -q"
+      },
+      "构建|build": {
+        "criterion": "构建成功",
+        "type": "auto",
+        "verify": "npm run build"
+      },
+      "检查|lint": {
+        "criterion": "代码检查通过",
+        "type": "auto",
+        "verify": "npm run lint"
+      },
+      "文档|doc": {
+        "criterion": "文档完整",
+        "type": "manual"
+      },
+      "审查|review": {
+        "criterion": "代码审查通过",
+        "type": "manual"
+      }
+    }
+  }
+}
