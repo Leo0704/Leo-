@@ -20,25 +20,24 @@
 - `GOAL.md` + `REALITY.md` — 高层目标和当前现实的差距
 - `tasks.json` — 具体任务列表、验收标准、依赖关系
 
-其他文件（STATUS.md、status.json）是辅助展示，不是事实来源。
-
 ## 目录结构
 
 ```
 项目目录/
-├── .workflow/           # 工作流状态
-│   ├── GOAL.md         # 理想状态（事实来源）
-│   ├── REALITY.md      # 当前状态（事实来源）
-│   └── tasks.json      # 任务列表（事实来源）
+├── .workflow/           # 工作流状态（事实来源）
+│   ├── GOAL.md         # 理想状态
+│   ├── REALITY.md      # 当前状态
+│   └── tasks.json      # 任务列表和验收标准
 ├── .claude/            # Claude Code 配置
 │   ├── commands/       # 自定义命令
 │   ├── skills/         # 自定义技能
+│   ├── hooks.py        # SessionStart 自动触发
 │   └── settings.json   # Hooks 配置
 ├── core/               # Python 可选工具
 │   └── tasks.py        # 任务管理（可选，Claude 可直接编辑 JSON）
 ├── tools/              # 命令行工具（可选）
 ├── templates/          # 项目模板
-└── WORKFLOW.md         # 工作流说明
+└── examples/           # 示例项目
 ```
 
 ## tasks.json 格式
